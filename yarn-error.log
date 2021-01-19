@@ -1,0 +1,65 @@
+Arguments: 
+  /Users/hennessyevan/.fnm/node-versions/v14.8.0/installation/bin/node /usr/local/bin/yarn add @parishconnect/ui
+
+PATH: 
+  /Users/hennessyevan/.rvm/gems/ruby-2.6.5/bin:/Users/hennessyevan/.rvm/gems/ruby-2.6.5@global/bin:/Users/hennessyevan/.rvm/rubies/ruby-2.6.5/bin:/Users/hennessyevan/.rbenv/shims:/Users/hennessyevan/.fnm/current/bin:/Users/hennessyevan/.rbenv/shims:/Library/Frameworks/Python.framework/Versions/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/opt/mysql@5.7/bin:/Users/hennessyevan/.rancher:/Users/hennessyevan/.rvm/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.8.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://npm.pkg.github.com/@parishconnect%2fui: npm package "ui" does not exist under owner "parishconnect"
+      at Request.params.callback [as _callback] (/Users/hennessyevan/.config/yarn/global/node_modules/yarn/lib/cli.js:66987:18)
+      at Request.self.callback (/Users/hennessyevan/.config/yarn/global/node_modules/yarn/lib/cli.js:140748:22)
+      at Request.emit (events.js:314:20)
+      at Request.<anonymous> (/Users/hennessyevan/.config/yarn/global/node_modules/yarn/lib/cli.js:141720:10)
+      at Request.emit (events.js:314:20)
+      at IncomingMessage.<anonymous> (/Users/hennessyevan/.config/yarn/global/node_modules/yarn/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:420:28)
+      at IncomingMessage.emit (events.js:326:22)
+      at endReadableNT (_stream_readable.js:1244:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+
+npm manifest: 
+  {
+    "scripts": {
+      "start": "snowpack dev",
+      "build": "snowpack build",
+      "test": "web-test-runner \"src/**/*.test.tsx\"",
+      "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+      "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
+    },
+    "dependencies": {
+      "react": "^17.0.0",
+      "react-dom": "^17.0.0"
+    },
+    "devDependencies": {
+      "@snowpack/plugin-dotenv": "^2.0.5",
+      "@snowpack/plugin-react-refresh": "^2.4.0",
+      "@snowpack/plugin-typescript": "^1.2.0",
+      "@snowpack/web-test-runner-plugin": "^0.2.0",
+      "@testing-library/react": "^11.0.0",
+      "@types/chai": "^4.2.13",
+      "@types/mocha": "^8.2.0",
+      "@types/react": "^17.0.0",
+      "@types/react-dom": "^17.0.0",
+      "@types/snowpack-env": "^2.3.2",
+      "@web/test-runner": "^0.12.0",
+      "chai": "^4.2.0",
+      "prettier": "^2.0.5",
+      "snowpack": "^3.0.1",
+      "typescript": "^4.0.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
