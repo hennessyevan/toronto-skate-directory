@@ -1,4 +1,11 @@
-import { Card, Heading, Text, ChevronRightIcon, Spinner } from 'evergreen-ui'
+import {
+  Card,
+  Heading,
+  Text,
+  ChevronRightIcon,
+  Spinner,
+  Dialog,
+} from 'evergreen-ui'
 import { useEffect, useState } from 'react'
 import { useQuery, QueryClientProvider, QueryClient } from 'react-query'
 
@@ -47,9 +54,10 @@ function GetAllRinks() {
     <div
       style={{
         padding: 16,
+        maxWidth: 1440,
       }}
     >
-      <h1>Rinks</h1>
+      <h1>All Rinks</h1>
       {isLoading ? (
         <div
           style={{
@@ -79,46 +87,37 @@ function Rinks({ rinks }: { rinks: RinkListEntry[] }) {
       }}
     >
       {rinks.map(rink => (
-        <Card
-          border
-          padding={16}
-          key={rink.globalid}
-          display="flex"
-          placeItems="center"
-        >
-          <div>
-            <Heading paddingBottom={4}>{rink.location}</Heading>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Text>{rink.address}</Text>
-              <Text>{rink.operational_hours}</Text>
-            </div>
-          </div>
-          <div style={{ marginLeft: 'auto' }}>
-            <ChevronRightIcon />
-          </div>
-        </Card>
+        <Rink rink={rink} />
       ))}
     </div>
   )
 }
 
-function Rink({ id }: { id: string }) {
-  const [rinkData, setRinkData] = useState()
-
-  useEffect(() => {
-    ;(async function loadRinkData() {
-      const data = await fetch(`/api/getRinkInfo?id=${id}`).then(r => {
-        return r.json()
-      })
-
-      setRinkData(data)
-    })()
-  }, [])
+function Rink({ rink }: { rink: RinkListEntry }) {
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   return (
-    <div>
-      First Rink
-      <pre>{JSON.stringify(rinkData, null, 3)}</pre>
-    </div>
+    <>
+      <Card
+        border
+        padding={16}
+        key={rink.globalid}
+        display="flex"
+        placeItems="center"
+        hoverElevation={2}
+      >
+        <div>
+          <Heading paddingBottom={4}>{rink.location}</Heading>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Text>{rink.address}</Text>
+            <Text>{rink.operational_hours}</Text>
+          </div>
+        </div>
+        <div style={{ marginLeft: 'auto' }}>
+          <ChevronRightIcon />
+        </div>
+      </Card>
+      <Dialog open></Dialog>
+    </>
   )
 }
