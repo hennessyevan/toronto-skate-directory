@@ -1,5 +1,6 @@
 import { parse } from 'https://deno.land/std/flags/mod.ts'
-import { cron, start } from 'https://deno.land/x/deno_cron/cron.ts'
+import { opineCors } from 'https://deno.land/x/cors@v1.2.1/mod.ts'
+import { cron } from 'https://deno.land/x/deno_cron/cron.ts'
 import { json, opine } from 'https://deno.land/x/opine@1.1.0/mod.ts'
 
 const cache = new Map()
@@ -10,6 +11,14 @@ enum CacheKeys {
 
 const app = opine()
 app.use(json())
+app.use(
+  opineCors({
+    origin: [
+      'http://localhost:8080',
+      'https://toronto-skate-directory.netlify.app',
+    ],
+  }),
+)
 
 // MARK - Routes
 app.get('/rink-index', async (req, res) => {

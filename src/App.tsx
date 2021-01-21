@@ -1,7 +1,8 @@
 import { Card, ChevronRightIcon, Heading, Spinner, Text } from 'evergreen-ui'
-import React from 'react'
+import { useCallback, useMemo } from 'react'
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { useGeolocation } from 'react-use'
+import sortByDistance from 'sort-distance'
 
 interface AppProps {}
 
@@ -31,19 +32,16 @@ type RinkListEntry = {
   website: string
 }
 
-type AllRinksData = {
-  features: {
-    attributes: RinkListEntry
-  }[]
-}
-
 function AllRinks() {
   const { latitude, longitude, loading: geoLocationLoading } = useGeolocation()
-  const { data, isLoading } = useQuery<AllRinksData>('rinks', async () => {
-    return await fetch('/api/rinks').then(r => {
-      return r.json()
-    })
+  const { data, isLoading } = useQuery<RinkListEntry[]>('rinks', async () => {
+    return await fetch('http://localhost:4000/rink-index').then(r => r.json())
   })
+
+  const sortedData = useMemo(() => {
+    if (!data) return []
+    return sortByDistance({ y: latitude, x: longitude }, data)
+  }, [data, latitude, longitude])
 
   return (
     <div
@@ -52,10 +50,18 @@ function AllRinks() {
         maxWidth: 1440,
       }}
     >
-      <Heading size={800} marginBottom={16}>
-        All Rinks
+      <Heading size={800} paddingBottom={8}>
+        Closest rinks with availability right now
       </Heading>
-      {geoLocationLoading ? <Spinner size={16} /> : <Text>{latitude}</Text>}
+      {geoLocationLoading ? (
+        <Spinner size={16} />
+      ) : (
+        <div style={{ paddingBottom: 16 }}>
+          <Text>
+            Nearest to {latitude}, {longitude}
+          </Text>
+        </div>
+      )}
       {isLoading ? (
         <div
           style={{
@@ -69,8 +75,8 @@ function AllRinks() {
           <Spinner />
         </div>
       ) : (
-        <pre>{JSON.stringify(data, null, 3)}</pre>
-        // <Rinks rinks={data?.map(f => f.attributes)} />
+        // <pre>{JSON.stringify(sortedData, null, 3)}</pre>
+        <Rinks rinks={sortedData} />
       )}
     </div>
   )
