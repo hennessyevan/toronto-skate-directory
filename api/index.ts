@@ -1,6 +1,6 @@
-import { json, opine } from 'https://deno.land/x/opine@1.1.0/mod.ts'
 import { parse } from 'https://deno.land/std/flags/mod.ts'
-import { every15Minute, hourly } from 'https://deno.land/x/deno_cron/cron.ts'
+import { cron, start } from 'https://deno.land/x/deno_cron/cron.ts'
+import { json, opine } from 'https://deno.land/x/opine@1.1.0/mod.ts'
 
 const cache = new Map()
 
@@ -74,7 +74,8 @@ async function getRinkInfo(id: string) {
   return data
 }
 
-every15Minute(assembleRinkData)
+cron('1 */5 * * * *', assembleRinkData)
+assembleRinkData()
 async function assembleRinkData() {
   console.log('Assembling rink data')
   const rinks = await getAllRinksInfo()
@@ -82,7 +83,8 @@ async function assembleRinkData() {
   for (const rink of rinks) {
     const id = rink.locationid
     const rinkData = await getRinkInfo(id)
-    rink.reservations = rinkData
+    rink.reservations = rinkData?.[0]?.r
+    rink.updated_at = rinkData?.[0]?.ts
   }
 
   cache.set(CacheKeys.RINK_INDEX, rinks)
