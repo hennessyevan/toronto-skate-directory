@@ -89,4 +89,4 @@ async function assembleRinkData() {
   console.log('Done rink data assembly')
 }
 
-app.listen(4000, () => console.log('running on 4000'))
+app.listen(process.env.PORT || 4000, () => console.log('running on 4000'))
