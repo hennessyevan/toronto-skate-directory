@@ -1,9 +1,10 @@
 {
   "include": ["src", "types"],
+  "exclude": ["api"],
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "jsx": "preserve",
     "baseUrl": "./",
     /* paths - import rewriting/resolving */

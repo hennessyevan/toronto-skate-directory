@@ -1,13 +1,7 @@
-import {
-  Card,
-  Heading,
-  Text,
-  ChevronRightIcon,
-  Spinner,
-  Dialog,
-} from 'evergreen-ui'
-import { useEffect, useState } from 'react'
-import { useQuery, QueryClientProvider, QueryClient } from 'react-query'
+import { Card, ChevronRightIcon, Heading, Spinner, Text } from 'evergreen-ui'
+import React from 'react'
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import { useGeolocation } from 'react-use'
 
 interface AppProps {}
 
@@ -16,7 +10,7 @@ const queryClient = new QueryClient()
 export function App({}: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <GetAllRinks />
+      <AllRinks />
     </QueryClientProvider>
   )
 }
@@ -43,9 +37,10 @@ type AllRinksData = {
   }[]
 }
 
-function GetAllRinks() {
+function AllRinks() {
+  const { latitude, longitude, loading: geoLocationLoading } = useGeolocation()
   const { data, isLoading } = useQuery<AllRinksData>('rinks', async () => {
-    return await fetch('/api/getAllRinks').then(r => {
+    return await fetch('/api/rinks').then(r => {
       return r.json()
     })
   })
@@ -57,7 +52,10 @@ function GetAllRinks() {
         maxWidth: 1440,
       }}
     >
-      <h1>All Rinks</h1>
+      <Heading size={800} marginBottom={16}>
+        All Rinks
+      </Heading>
+      {geoLocationLoading ? <Spinner size={16} /> : <Text>{latitude}</Text>}
       {isLoading ? (
         <div
           style={{
@@ -71,7 +69,8 @@ function GetAllRinks() {
           <Spinner />
         </div>
       ) : (
-        <Rinks rinks={data!.features.map(f => f.attributes)} />
+        <pre>{JSON.stringify(data, null, 3)}</pre>
+        // <Rinks rinks={data?.map(f => f.attributes)} />
       )}
     </div>
   )
@@ -87,37 +86,32 @@ function Rinks({ rinks }: { rinks: RinkListEntry[] }) {
       }}
     >
       {rinks.map(rink => (
-        <Rink rink={rink} />
+        <Rink key={rink.globalid} rink={rink} />
       ))}
     </div>
   )
 }
 
 function Rink({ rink }: { rink: RinkListEntry }) {
-  const [dialogOpen, setDialogOpen] = useState(false)
-
   return (
-    <>
-      <Card
-        border
-        padding={16}
-        key={rink.globalid}
-        display="flex"
-        placeItems="center"
-        hoverElevation={2}
-      >
-        <div>
-          <Heading paddingBottom={4}>{rink.location}</Heading>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text>{rink.address}</Text>
-            <Text>{rink.operational_hours}</Text>
-          </div>
+    <Card
+      border
+      padding={16}
+      key={rink.globalid}
+      display="flex"
+      placeItems="center"
+      hoverElevation={2}
+    >
+      <div>
+        <Heading paddingBottom={4}>{rink.location}</Heading>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Text>{rink.address}</Text>
+          <Text>{rink.operational_hours}</Text>
         </div>
-        <div style={{ marginLeft: 'auto' }}>
-          <ChevronRightIcon />
-        </div>
-      </Card>
-      <Dialog open></Dialog>
-    </>
+      </div>
+      <div style={{ marginLeft: 'auto' }}>
+        <ChevronRightIcon />
+      </div>
+    </Card>
   )
 }

@@ -1,0 +1,10 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "hennessyevan",
+  "license": "MIT",
+  "scripts": {
+    "start": "deno run --allow-read --allow-net index.ts"
+  }
+}
