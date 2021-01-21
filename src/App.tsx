@@ -35,7 +35,9 @@ type RinkListEntry = {
 function AllRinks() {
   const { latitude, longitude, loading: geoLocationLoading } = useGeolocation()
   const { data, isLoading } = useQuery<RinkListEntry[]>('rinks', async () => {
-    return await fetch('http://localhost:4000/rink-index').then(r => r.json())
+    return await fetch(
+      'https://toronto-skate-api.herokuapp.com/rink-index',
+    ).then(r => r.json())
   })
 
   const sortedData = useMemo(() => {
