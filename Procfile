@@ -1,1 +1,1 @@
-web: cd api && deno run --allow-read --allow-net=:${PORT} index.ts --port=${PORT}
+web: cd api && deno run --allow-read --allow-net index.ts --port=${PORT}
