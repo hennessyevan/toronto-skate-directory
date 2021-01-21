@@ -1,4 +1,5 @@
 import { json, opine } from 'https://deno.land/x/opine@1.1.0/mod.ts'
+import { parse } from 'https://deno.land/std/flags/mod.ts'
 import { every15Minute, hourly } from 'https://deno.land/x/deno_cron/cron.ts'
 
 const cache = new Map()
@@ -89,4 +90,7 @@ async function assembleRinkData() {
   console.log('Done rink data assembly')
 }
 
-app.listen(process.env.PORT || 4000, () => console.log('running on 4000'))
+const { args } = Deno
+const argPort = parse(args).port
+
+app.listen(argPort || 4000, () => console.log('running on 4000'))
