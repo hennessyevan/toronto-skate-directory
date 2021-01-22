@@ -56,8 +56,7 @@ function AllRinks() {
   const { latitude, longitude, loading: geoLocationLoading } = useGeolocation()
   const { data, isLoading } = useQuery<RinkListEntry[]>('rinks', async () => {
     return await fetch(
-      'http://localhost:4000/rink-index' ||
-        'https://toronto-skate-api.herokuapp.com/rink-index',
+      'https://toronto-skate-api.herokuapp.com/rink-index',
     ).then(r => r.json())
   })
 
@@ -70,7 +69,13 @@ function AllRinks() {
   }, [data, roundedLatitude, roundedLongitude])
 
   return (
-    <Box height="100vh" overflow="hidden">
+    <Box
+      height="100%"
+      maxHeight="100vh"
+      overflow="hidden"
+      display="flex"
+      flexDirection="column"
+    >
       <Box
         padding={16}
         paddingBottom={0}
@@ -202,7 +207,13 @@ function SingleRink({ rink }: { rink?: RinkListEntry }) {
   })
 
   return (
-    <Box padding={16} paddingBottom={32} height="100%">
+    <Box
+      padding={16}
+      paddingBottom={32}
+      height="100%"
+      display="flex"
+      flexDirection="column"
+    >
       <Heading paddingBottom={16} size={700}>
         {rink?.location}
       </Heading>
