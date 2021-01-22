@@ -289,7 +289,9 @@ function SingleRink({ rink }: { rink?: RinkListEntry }) {
                 )
               })}
             </Box>
-            <Text>Updated {rink?.updated_at}</Text>
+            <Text marginTop={16}>
+              Last Updated {DateTime.fromISO(rink?.updated_at).toRelative()}
+            </Text>
           </>
         )}
       </Box>

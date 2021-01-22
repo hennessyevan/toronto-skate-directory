@@ -96,7 +96,7 @@ async function assembleRinkData() {
 
     rink.reservations = rink.reservations.filter((r: any) => r.s > 0)
 
-    rink.updated_at = rinkData?.[0]?.ts
+    rink.updated_at = new Date().toISOString()
   }
 
   cache.set(CacheKeys.RINK_INDEX, rinks)
