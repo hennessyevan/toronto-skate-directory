@@ -92,7 +92,10 @@ async function assembleRinkData() {
   for (const rink of rinks) {
     const id = rink.locationid
     const rinkData = await getRinkInfo(id)
-    rink.reservations = rinkData?.[0]?.r
+    rink.reservations = rinkData?.[0]?.r ?? []
+
+    rink.reservations = rink.reservations.filter((r: any) => r.s > 0)
+
     rink.updated_at = rinkData?.[0]?.ts
   }
 
