@@ -1,6 +1,3 @@
-const httpProxy = require('http-proxy')
-const proxy = httpProxy.createServer({ target: 'http://localhost:4000' })
-
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
@@ -12,12 +9,7 @@ module.exports = {
     '@snowpack/plugin-dotenv',
     '@snowpack/plugin-babel',
   ],
-  routes: [
-    {
-      src: '/api/.*',
-      dest: (req, res) => proxy.web(req, res),
-    },
-  ],
+  routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
   optimize: {
     /* Example: Bundle your final build: */
     // "bundle": true,
