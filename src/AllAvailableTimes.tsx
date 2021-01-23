@@ -101,7 +101,7 @@ export function AllAvailableTimes({
                 ? 'Sorted Alphabetically'
                 : geolocation.loading
                 ? 'Loading nearest rinks'
-                : `Sorted by rinks nearest to ${geolocation.latitude}, ${geolocation.longitude}`}
+                : `Sorted by rinks nearest to ${roundedLatitude}, ${roundedLongitude}`}
             </Heading>
           </Box>
         </Box>
