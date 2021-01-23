@@ -1095,7 +1095,7 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@parishconnect/box@^2.3.0":
+"@parishconnect/box@^2.3.0", "@parishconnect/box@^2.3.1":
   version "2.3.1"
   resolved "https://npm.pkg.github.com/download/@parishconnect/box/2.3.1/c2b7eade552f4bcf39366881afb09ef2f9908afacd29be092d0b5781a6f7fad3#7547b05f0dd798226908300b0be70a488c86f236"
   integrity sha512-oRT+iztmwRk7gCr/MWUr6SWj+TQsp6zOjvSmdHVC7ymbKOHleWIn3svevY54oOlvi3bZ/x1cXK3EqNSZH8C8Xw==

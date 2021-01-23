@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.1.4",
-    "@parishconnect/box": "^2.3.0",
+    "@parishconnect/box": "^2.3.1",
     "@parishconnect/react-ui": "^1.6.4",
     "evergreen-ui": "^5.1.2",
     "framer-motion": "^3.2.1",
