@@ -23,89 +23,57 @@ import { containerPadding } from './App'
 import { Donate } from './Donate'
 
 type FiltersProps = {
+  days: string[]
   setDays: (days: string[]) => void
   // hourInteraval: Interval
   // setHourInterval: (interval: Interval) => void
 }
-export function Filters({ setDays }: FiltersProps) {
-  const [open, setOpen] = useState(true)
+export function Filters({ days, setDays }: FiltersProps) {
+  // const [open, setOpen] = useState(true)
   const [dirty, setDirty] = useState(true)
-  const isDesktop = useMedia('(min-width: 1024px)')
+  // const isDesktop = useMedia('(min-width: 1024px)')
   const { width } = useWindowSize()
 
   return (
     <Portal>
       <Box
-        is={motion.div}
         position="fixed"
         bottom={containerPadding}
         right={`max(${width - maxWidth * 2 - 16}px, ${containerPadding})`}
         zIndex={1000}
         justifyContent="end"
       >
-        <Box is={motion.div} position="relative">
-          <AnimateSharedLayout type="crossfade">
-            <Button
-              iconBefore={dirty ? <Pill marginRight={6}>1</Pill> : FilterIcon}
-              is={motion.button}
-              height={45}
-              marginLeft="auto"
-              onClick={() => setOpen(true)}
-              appearance="primary"
-              zIndex={100}
+        <Box position="relative">
+          <Box display="grid" gridAutoFlow="row" gap={8}>
+            <Card
+              key="filterCard"
+              is={motion.div}
+              border="muted"
+              padding={16}
+              background="rgba(255,255,255,0.35)"
+              css={{ backdropFilter: 'blur(15px) saturate(180%)' }}
+              maxWidth="min(calc(100vw - 16px), 400px)"
               layoutId="container"
+              zIndex={100}
+              borderRadius={16}
+              elevation={4}
               bottom={0}
               right={0}
               position="absolute"
             >
-              <motion.span layoutId="title">Filter</motion.span>
-            </Button>
-            <Box display="grid" gridAutoFlow="row" gap={8}>
-              <AnimatePresence>
-                {open && (
-                  <Card
-                    key="filterCard"
-                    is={motion.div}
-                    border="muted"
-                    padding={16}
-                    background="rgba(255,255,255,0.35)"
-                    css={{ backdropFilter: 'blur(15px) saturate(180%)' }}
-                    maxWidth="min(calc(100vw - 16px), 400px)"
-                    layoutId="container"
-                    zIndex={100}
-                    borderRadius={16}
-                    elevation={4}
-                    bottom={0}
-                    right={0}
-                    position="absolute"
-                  >
-                    <Box display="flex" alignItems="center">
-                      <Heading is={motion.h1} layoutId="title">
-                        Filter
-                      </Heading>
-                      <IconButton
-                        marginLeft="auto"
-                        icon={XIcon}
-                        onClick={() => setOpen(false)}
-                        appearance="minimal"
-                      />
-                    </Box>
-                    <Box paddingY={16}>
-                      <Heading paddingBottom={8} size={400} color="theme">
-                        Weekday
-                      </Heading>
-                      <WeekdayFilter
-                        onChange={selectedWeekdays => {
-                          setDirty(selectedWeekdays.length < 7)
-                          setDays(selectedWeekdays)
-                        }}
-                      />
-                    </Box>
-                  </Card>
-                )}
-              </AnimatePresence>
-            </Box>
-          </AnimateSharedLayout>
+              <Box display="flex" alignItems="center">
+                <Heading is={motion.h1} layoutId="title">
+                  Filter
+                </Heading>
+              </Box>
+              <Box paddingY={16}>
+                <Heading paddingBottom={8} size={400} color="theme">
+                  Weekday
+                </Heading>
+                <WeekdayFilter days={days} setDays={setDays} />
+              </Box>
+            </Card>
+          </Box>
         </Box>
         <Donate key="donate" />
       </Box>
@@ -117,19 +85,13 @@ export const weekdays = Info.weekdays('short').map(w =>
   w.substring(0, 2).toUpperCase(),
 )
 
-const nextWeekdays = [
-  DateTime.local().weekdayShort,
-  DateTime.local().plus({ day: 1 }).weekdayShort,
-  DateTime.local().plus({ day: 2 }).weekdayShort,
-].map(d => d.substring(0, 2).toUpperCase())
-
-function WeekdayFilter({ onChange }: { onChange: (value: string[]) => void }) {
-  const [selectedWeekdays, setSelectedWeekdays] = useState(nextWeekdays)
-
-  useEffect(() => {
-    onChange(selectedWeekdays)
-  }, [selectedWeekdays])
-
+function WeekdayFilter({
+  days,
+  setDays,
+}: {
+  days: string[]
+  setDays: (value: string[]) => void
+}) {
   return (
     <Box
       display="grid"
@@ -139,14 +101,12 @@ function WeekdayFilter({ onChange }: { onChange: (value: string[]) => void }) {
       {weekdays.map(weekday => (
         <Button
           key={weekday}
-          appearance={
-            selectedWeekdays.includes(weekday) ? 'primary' : 'default'
-          }
+          appearance={days.includes(weekday) ? 'primary' : 'default'}
           onClick={() => {
-            if (selectedWeekdays.includes(weekday)) {
-              setSelectedWeekdays(selectedWeekdays.filter(w => w !== weekday))
+            if (days.includes(weekday)) {
+              setDays(days.filter(w => w !== weekday))
             } else {
-              setSelectedWeekdays([weekday].concat(selectedWeekdays))
+              setDays([weekday].concat(days))
             }
           }}
           display="flex"

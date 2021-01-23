@@ -1,15 +1,19 @@
 import Box from '@parishconnect/box'
 import {
   Card,
+  CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   Heading,
   IconButton,
+  MinusCircleIcon,
+  CheckCircleIcon,
   Link,
   Pane,
   Spinner,
   Text,
 } from '@parishconnect/react-ui'
+import { Tooltip } from 'evergreen-ui'
 import { sortBy } from 'lodash-es'
 import { DateTime } from 'luxon'
 import React, { useMemo, useState } from 'react'
@@ -21,11 +25,17 @@ import type { ChildProps, RinkListEntry } from './types'
 
 export const maxWidth = 700
 
+const nextWeekdays = [
+  DateTime.local().weekdayShort,
+  DateTime.local().plus({ day: 1 }).weekdayShort,
+  DateTime.local().plus({ day: 2 }).weekdayShort,
+].map(d => d.substring(0, 2).toUpperCase())
+
 export function AllAvailableTimes({
   data: rinks = [],
   geolocation,
 }: ChildProps) {
-  const [days, setDays] = useState<string[]>([])
+  const [days, setDays] = useState<string[]>(nextWeekdays)
 
   const rinksWithAvailableTimes = rinks.filter(rink => {
     const availableReservations = rink.reservations?.filter(
@@ -107,7 +117,7 @@ export function AllAvailableTimes({
         </Box>
       </Pane>
 
-      <Filters setDays={setDays} />
+      <Filters days={days} setDays={setDays} />
 
       <Box width="100%" maxWidth={maxWidth} marginX="auto">
         {!geolocation.error && geolocation.loading ? (
@@ -224,6 +234,7 @@ function TimeSlot({
   cid: courseId,
   t: times,
   d,
+  s,
   f: facility,
   rink,
 }: RinkListEntry['reservations'][0] & { rink: RinkListEntry }) {
@@ -232,6 +243,7 @@ function TimeSlot({
   return (
     <Card
       is="a"
+      title={s === 2 ? 'Available' : 'Some spots left'}
       href={`https://efun.toronto.ca/torontofun/Activities/ActivitiesCourseDetails.asp?aid=${activityId}&cid=${courseId}`}
       target="_blank"
       rel="noopener"
@@ -243,7 +255,15 @@ function TimeSlot({
       flexDirection="column"
       cursor="pointer"
       textDecoration="none"
+      identifier={s === 2 ? 'green' : 'orange'}
+      identifierPosition="left"
     >
+      {/* <Box display="flex" alignItems="center">
+        {s === 2 ? (
+          <CheckCircleIcon size={24} title="Available" />
+        ) : (
+          <MinusCircleIcon size={24} title="Some spots left" />
+        )} */}
       <Heading size={100}>{rink.location}</Heading>
       <Box display="flex">
         <Heading color="theme">
@@ -255,6 +275,7 @@ function TimeSlot({
         </Heading>
         <Text marginLeft="auto">{times}</Text>
       </Box>
+      {/* </Box> */}
     </Card>
   )
 }
