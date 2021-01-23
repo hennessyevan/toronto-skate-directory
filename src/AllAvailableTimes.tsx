@@ -28,7 +28,7 @@ export function AllAvailableTimes({
   const [days, setDays] = useState<string[]>([])
 
   const rinksWithAvailableTimes = rinks.filter(rink => {
-    const availableReservations = rink.reservations.filter(
+    const availableReservations = rink.reservations?.filter(
       reservation => reservation.s > 0,
     )
     if (availableReservations.length > 0) {

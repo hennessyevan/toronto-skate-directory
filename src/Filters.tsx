@@ -39,13 +39,14 @@ export function Filters({ setDays }: FiltersProps) {
   return (
     <Portal>
       <Box
+        is={motion.div}
         position="fixed"
         bottom={containerPadding}
         right={`max(${width - maxWidth * 2 - 16}px, ${containerPadding})`}
-        zIndex={100}
+        zIndex={1000}
         justifyContent="end"
       >
-        <Box position="relative">
+        <Box is={motion.div} position="relative">
           <AnimateSharedLayout type="crossfade">
             <Button
               iconBefore={dirty ? <Pill marginRight={6}>1</Pill> : FilterIcon}
