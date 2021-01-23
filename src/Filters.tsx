@@ -28,13 +28,10 @@ type FiltersProps = {
   // setHourInterval: (interval: Interval) => void
 }
 export function Filters({ setDays }: FiltersProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const [dirty, setDirty] = useState(true)
   const isDesktop = useMedia('(min-width: 1024px)')
   const { width } = useWindowSize()
-  useTimeoutFn(() => {
-    setOpen(isDesktop)
-  }, 5000)
 
   return (
     <Portal>

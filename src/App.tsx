@@ -22,7 +22,7 @@ function Routes() {
   })
   const rinkData = useQuery<RinkListEntry[]>('rinks', async () => {
     return await fetch(
-      'http://toronto-skating.hennessyevan.com/rink-index',
+      '//toronto-skating.hennessyevan.com/rink-index',
     ).then(r => r.json())
   })
 

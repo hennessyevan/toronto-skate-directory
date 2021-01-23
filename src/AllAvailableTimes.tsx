@@ -31,7 +31,7 @@ export function AllAvailableTimes({
     const availableReservations = rink.reservations?.filter(
       reservation => reservation.s > 0,
     )
-    if (availableReservations.length > 0) {
+    if (availableReservations?.length > 0) {
       return true
     }
   })
