@@ -17,7 +17,7 @@ import {
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion'
 import { DateTime, Info, Interval } from 'luxon'
 import React, { useState, useEffect, useRef } from 'react'
-import { useMedia, useWindowSize } from 'react-use'
+import { useMedia, useTimeoutFn, useWindowSize } from 'react-use'
 import { maxWidth } from './AllAvailableTimes'
 import { containerPadding } from './App'
 import { Donate } from './Donate'
@@ -32,6 +32,9 @@ export function Filters({ setDays }: FiltersProps) {
   const [dirty, setDirty] = useState(true)
   const isDesktop = useMedia('(min-width: 1024px)')
   const { width } = useWindowSize()
+  useTimeoutFn(() => {
+    setOpen(isDesktop)
+  }, 5000)
 
   return (
     <Portal>

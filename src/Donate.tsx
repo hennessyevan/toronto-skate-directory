@@ -8,6 +8,7 @@ import {
   XIcon,
   Avatar,
   Heading,
+  Link,
 } from '@parishconnect/react-ui'
 import React from 'react'
 import { useSessionStorage } from 'react-use'
@@ -62,18 +63,21 @@ export function Donate() {
           Has this saved you some time to get you outside on the ice?
         </Text>
       </Box>
-      <Button
-        whiteSpace="nowrap"
-        alignItems="center"
-        is="a"
+      <a
         target="_blank"
         href="https://paypal.me/hennessyevan/5"
-        intent="danger"
-        appearance="primary"
-        iconBefore={HeartIcon}
+        style={{ textDecoration: 'none' }}
       >
-        Buy me a coffee
-      </Button>
+        <Button
+          whiteSpace="nowrap"
+          alignItems="center"
+          intent="danger"
+          appearance="primary"
+          iconBefore={HeartIcon}
+        >
+          Buy me a coffee
+        </Button>
+      </a>
     </Card>
   )
 }
