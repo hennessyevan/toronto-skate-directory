@@ -83,7 +83,7 @@ async function getRinkInfo(id: string) {
   return data
 }
 
-cron('1 */5 * * * *', assembleRinkData)
+cron('1 */2 * * * *', assembleRinkData)
 assembleRinkData()
 async function assembleRinkData() {
   console.log('Assembling rink data')
